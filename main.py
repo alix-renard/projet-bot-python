@@ -1,35 +1,26 @@
 import random
 from discord.ext import commands
 
-TOKEN = "ODE4ODgyNjE4ODU0NjA0ODMw.YEeh3g.eMaG4fLP_F4uizC5j44vvXaCCmw"
+TOKEN = ""
 
 bot = commands.Bot(command_prefix='!')
 
 questions = [
-    'I\'m the human form of the 💯 emoji.',
-    'Bingpot!',
-    'Cool. Cool cool cool cool cool cool cool, no doubt no doubt no doubt no doubt.',
+    'Qui a gagné le concour à trois points lors du all star game de 2021  \n1) Stephan Curry \n2) Zake Lavyne \n3) James Harden',
+    'Quel pays a gagné la coupe du monde en 2014 \n1) La France \n2) L\'Allemagne \n3) Le Brésil',
+    'Ou ce situe Krung Thep Mahanakhon Amon Rattanakosin Mahinthara Ayutthaya Mahadilok Phop Noppharat Ratchathani Burirom Udomratchaniwet Mahasathan Amon Piman Awatan Sathit Sakkathattiya Witsanukam Prasit. \n1) Thailande \n2) Haïti \n3) Nouvelle-Zélande ',
 ]
-questions_poses = []
-reponses = []
-
-# la commande !help affichera toutes les commandes et leur descriptions
-@bot.command(name='99', help='Répondre avec une citation au hasard à la commande 99')
-async def nine_nine(ctx):
-  response = random.choice(questions)
-  await ctx.send(response)
-
-
-@bot.command(name='test', help='Répondre la valeur saisie par l\'utilisateur à la commande test')
-async def test(ctx, arg):
-  await ctx.send(arg)
+reponses = [1,2,1]
+index_questions_poses = []
+reponses_aux_questions_poses = []
 
 # commande 'quizz' pour lancer le quizz et va poser la 1ere question et la stoquer
 @bot.command(name='quiz', help='lance le quiz')
 async def quiz(ctx):
   await ctx.send('le quiz demarre')
   question = random.choice(questions)
-  questions_poses.append(question)
+  index_question = questions.index(question)
+  index_questions_poses.append(index_question)
   await ctx.send(question)
 
 
@@ -38,19 +29,22 @@ async def quiz(ctx):
 # si le nombre de questions est inferieur à 3 on pose une autre question et stoque la question
 # sinon on affiche le résultat du quizz
 @bot.command(name='r', help='repond au quiz')
-async def reponse(ctx, arg):
-  reponse = arg
-  reponses.append(reponse)
-  if len(questions_poses)<3:
+async def reponse(ctx, reponse :int):
+  reponses_aux_questions_poses.append(reponse)
+  if len(index_questions_poses)<3:
     question = random.choice(questions)
-    questions_poses.append(question)
+    index_question = questions.index(question)
+    index_questions_poses.append(index_question)
     await ctx.send(question)
   else:
-    bonne_reponse = 0
-    for r in reponses:
-      if r == 'a':
-        bonne_reponse = bonne_reponse + 1
-    await ctx.send('tu as ' + str(bonne_reponse) + ' bonnes reponses')
+    nb_bonnes_reponses = 0
+    for i in range(0,3):
+      index_question_pose = index_questions_poses[i]
+      rep = reponses_aux_questions_poses[i]
+      bonne_reponse = reponses[index_question_pose]
+      if rep == bonne_reponse:
+        nb_bonnes_reponses = nb_bonnes_reponses + 1
+    await ctx.send('tu as ' + str(nb_bonnes_reponses) + ' bonnes reponses')
     await ctx.send('le quiz est fini')
 
 
