@@ -14,11 +14,19 @@ reponses = [1,2,1]
 index_questions_poses = []
 reponses_aux_questions_poses = []
 
+# Retourne la liste des questions restantes a poser
+def questions_restantes():
+  questions_restantes = []
+  for i in range(0,len(questions)):
+    if i not in index_questions_poses:
+      questions_restantes.append(questions[i])
+  return questions_restantes
+
 # commande 'quizz' pour lancer le quizz et va poser la 1ere question et la stoquer
 @bot.command(name='quiz', help='lance le quiz')
 async def quiz(ctx):
   await ctx.send('le quiz demarre')
-  question = random.choice(questions)
+  question = random.choice(questions_restantes())
   index_question = questions.index(question)
   index_questions_poses.append(index_question)
   await ctx.send(question)
@@ -32,7 +40,7 @@ async def quiz(ctx):
 async def reponse(ctx, reponse :int):
   reponses_aux_questions_poses.append(reponse)
   if len(index_questions_poses)<3:
-    question = random.choice(questions)
+    question = random.choice(questions_restantes())
     index_question = questions.index(question)
     index_questions_poses.append(index_question)
     await ctx.send(question)
