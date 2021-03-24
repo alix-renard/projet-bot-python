@@ -1,14 +1,14 @@
 import random
 from discord.ext import commands
 
-TOKEN = ""
+TOKEN = "ODE4ODgyNjE4ODU0NjA0ODMw.YEeh3g.2X1GTML3HMX0hu4KEQ3qxT8bmRA"
 
 bot = commands.Bot(command_prefix='!')
 
 questions = [
-    'Qui a gagné le concour à trois points lors du all star game de 2021  \n1) Stephan Curry \n2) Zake Lavyne \n3) James Harden',
-    'Quel pays a gagné la coupe du monde en 2014 \n1) La France \n2) L\'Allemagne \n3) Le Brésil',
-    'Ou ce situe Krung Thep Mahanakhon Amon Rattanakosin Mahinthara Ayutthaya Mahadilok Phop Noppharat Ratchathani Burirom Udomratchaniwet Mahasathan Amon Piman Awatan Sathit Sakkathattiya Witsanukam Prasit. \n1) Thailande \n2) Haïti \n3) Nouvelle-Zélande ',
+    'Qui a gagné le concour à trois points lors du all star game de 2021?  \n1) Stephan Curry \n2) Zake Lavyne \n3) James Harden',
+    'Quel pays a gagné la coupe du monde en 2014? \n1) La France \n2) L\'Allemagne \n3) Le Brésil',
+    'Ou ce situe Krung Thep Mahanakhon Amon Rattanakosin Mahinthara Ayutthaya Mahadilok Phop Noppharat Ratchathani Burirom Udomratchaniwet Mahasathan Amon Piman Awatan Sathit Sakkathattiya Witsanukam Prasit? \n1) Thailande \n2) Haïti \n3) Nouvelle-Zélande ',
 ]
 reponses = [1,2,1]
 index_questions_poses = []
@@ -25,7 +25,9 @@ def questions_restantes():
 # commande 'quizz' pour lancer le quizz et va poser la 1ere question et la stoquer
 @bot.command(name='quiz', help='lance le quiz')
 async def quiz(ctx):
-  await ctx.send('le quiz demarre')
+  del index_questions_poses[:]
+  del reponses_aux_questions_poses[:]
+  await ctx.send('le quiz demarre, envoie ta réponse à l\'aide de la commande !r')
   question = random.choice(questions_restantes())
   index_question = questions.index(question)
   index_questions_poses.append(index_question)
